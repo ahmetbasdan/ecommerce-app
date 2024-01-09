@@ -42,6 +42,7 @@ const Search = () => {
           })
           setFilterData(newData || [])
         }}
+        autoFocus
       />
       <FlatList
         showsVerticalScrollIndicator={false}
