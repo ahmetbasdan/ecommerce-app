@@ -4,18 +4,25 @@ import { productsResponse } from '../../../types/service'
 import { Image } from 'expo-image'
 import colors from '../../../utils/colors'
 import { BasketContext } from '../../../contexts/BasketContext'
+import useNavigation from '../../../hooks/useNavigation'
 
 interface IBasketItem extends productsResponse { }
 
 const BasketItem: React.FC<IBasketItem> = (props) => {
-    const {remove}=useContext(BasketContext)
+    const { remove, baskets } = useContext(BasketContext)
+    const navigation = useNavigation()
 
     const handleRemove = () => {
         remove(props)
     }
 
+    const goToProductDetail = () => {
+        const isFavorite = baskets.some(x => x.id === props.id)
+        navigation.navigate('ProductDetail', { ...props, isFavorite })
+    }
+
     return (
-        <View style={styles.container}>
+        <Pressable onPress={goToProductDetail} style={styles.container}>
             <Image source={{ uri: props?.image }} style={styles.image} contentFit='contain' />
             <View style={styles.right}>
                 <Text numberOfLines={1} style={styles.title}>{props?.title}</Text>
@@ -27,7 +34,7 @@ const BasketItem: React.FC<IBasketItem> = (props) => {
                     <Text style={styles.cancelButtonText}>Remove</Text>
                 </Pressable>
             </View>
-        </View>
+        </Pressable>
     )
 }
 

@@ -52,9 +52,9 @@ const PrductCard: React.FC<IProductCard> = (props) => {
           contentFit='contain'
         />
         <Text style={styles.title} numberOfLines={2}>{props?.title}</Text>
-        <Pressable style={styles.button} >
+        <View style={styles.button} >
           <Text style={styles.buttonText}>Shop now</Text>
-        </Pressable>
+        </View>
       </Pressable>
     </View>
   )

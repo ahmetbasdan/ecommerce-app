@@ -1,57 +1,34 @@
-import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useContext, useState } from 'react'
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useContext, useMemo } from 'react'
 import { RouteProp, useRoute } from '@react-navigation/native'
 import { RootStackParamList } from '../../types'
 import { Image } from 'expo-image'
 import colors from '../../utils/colors'
 import constants from '../../utils/constants'
 import { FavoriteActive, FavoritePassive } from '../../assets/svg/Icon'
-import { FavoriteContext } from '../../contexts/FavoriteContext'
 import { BasketContext } from '../../contexts/BasketContext'
 import useNavigation from '../../hooks/useNavigation'
 
 const ProductDetail = () => {
   const { params } = useRoute<RouteProp<RootStackParamList, "ProductDetail">>()
-  const [isFavorite, setIsFavorite] = useState(params?.isFavorite || false)
-  const { add, remove } = useContext(FavoriteContext)
   const { add: addBasket, baskets } = useContext(BasketContext)
   const navigation = useNavigation()
+  const isBasket = useMemo(() => baskets.some((basket) => basket.id === params?.id), [baskets])
 
-  const handleFavorite = () => {
-    setIsFavorite(isFavorite => {
-      if (isFavorite) {
-        remove(params)
-      } else {
-        add(params)
-      }
-      return !isFavorite
-    })
-  }
-
-  const handleAddToCart = () => {
-    const isBasket = baskets.some((basket) => basket.id === params?.id)
+  const handleCart = () => {
     if (!isBasket) {
       addBasket(params)
-      Alert.alert('Başarılı', 'Ürün sepete eklendi',
-        [
-          { text: 'Alışverişe Devam Et' },
-          { text: 'Sepete Git', onPress: () => navigation.navigate('Home', { screen: 'Basket' }) }
-        ])
     }
     else {
-      Alert.alert('Uyarı', 'Ürün zaten sepetinizde',
-        [
-          { text: 'Tamam' },
-          { text: 'Sepete Git', onPress: () => navigation.navigate('Home', { screen: 'Basket' }) }
-        ])
+      navigation.navigate('Home', { screen: 'Basket' })
     }
   }
 
   return (
     <View style={styles.container}>
-      <Pressable style={styles.favoriteButton} onPress={handleFavorite}>
-        {isFavorite ? <FavoriteActive /> : <FavoritePassive />}
-      </Pressable>
+      <View style={styles.favoriteButton}>
+        {params?.isFavorite || false ? <FavoriteActive /> : <FavoritePassive />}
+      </View>
       <View style={styles.topContent}>
         <Image
           source={{ uri: params?.image }}
@@ -65,8 +42,8 @@ const ProductDetail = () => {
             <Text style={styles.category}>{params?.category}</Text>
             <Text style={styles.price}>${params?.price}</Text>
           </View>
-          <Pressable style={styles.button} onPress={handleAddToCart}>
-            <Text style={styles.buttonText}>ADD TO CART</Text>
+          <Pressable style={styles.button} onPress={handleCart}>
+            <Text style={styles.buttonText}>{isBasket ? "GO TO CART" : "ADD TO CART"}</Text>
           </Pressable>
         </View>
       </View>
