@@ -1,10 +1,12 @@
 import React, { useContext } from 'react'
-import { FlatList, ListRenderItem, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, ListRenderItem, StyleSheet, Text, View } from 'react-native'
 import ProductCard from '../../components/ProductCard'
 import { useQuery } from 'react-query'
 import service from '../../service'
 import { productsResponse } from '../../types/service'
 import constants from '../../utils/constants'
+import colors from '../../utils/colors'
+import ActionContent from '../../components/ActionContent'
 
 const ProductList = () => {
   const { data, isError, isLoading } = useQuery({
@@ -14,7 +16,23 @@ const ProductList = () => {
 
   const renderItem: ListRenderItem<productsResponse> = ({ item }) => <ProductCard {...item} mode='normal' />
 
-  if (isLoading) return <Text>Loading...</Text>
+  if (isLoading) return (
+    <ActivityIndicator
+      size={"large"}
+      color={colors.primary}
+      style={styles.activityIndicator}
+    />
+  )
+
+  if (isError) {
+    return (
+      <ActionContent
+        style={styles.actionContent}
+        type='error'
+        text='Beklenmenmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.'
+      />
+    )
+  }
 
   return (
     <View>
@@ -36,5 +54,11 @@ const styles = StyleSheet.create({
   flatList: {
     paddingTop: constants.padding,
     paddingBottom: constants.bottomNavHeight + constants.padding,
+  },
+  activityIndicator: {
+    paddingTop: constants.padding2x,
+  },
+  actionContent: {
+    paddingTop: constants.padding2x
   }
 })

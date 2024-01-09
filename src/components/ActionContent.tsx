@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View, ViewStyle } from 'react-native'
 import React, { ReactNode } from 'react'
-import { Calendar, Search } from '../assets/svg/Icon'
+import { Calendar, InformationOutline, Search } from '../assets/svg/Icon'
 import colors from '../utils/colors'
+import constants from '../utils/constants'
 
 interface IActionContent {
-    type: "notfound" | "notfound-search",
+    type: "notfound" | "notfound-search" | "error",
     text?: string,
     style?: ViewStyle
 }
@@ -21,7 +22,8 @@ const ActionContent: React.FC<IActionContent> = ({
                 return <Calendar />
             case "notfound-search":
                 return <Search />
-
+            case "error":
+                return <InformationOutline />
             default:
                 return <Calendar />
         }
@@ -38,13 +40,14 @@ export default ActionContent
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         rowGap: 24
     },
     title: {
         fontSize: 16,
-        color: colors.gray
+        color: colors.gray,
+        textAlign: 'center',
+        paddingHorizontal: constants.padding
     }
 })

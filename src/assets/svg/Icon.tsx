@@ -112,11 +112,29 @@ function Calendar(props: SvgProps) {
     )
 }
 
+function InformationOutline(props: SvgProps) {
+    return (
+        <Svg
+            width={80}
+            height={80}
+            viewBox="0 0 80 80"
+            fill="none"
+            {...props}
+        >
+            <Path
+                d="M36 52h8v8h-8v-8zm0-32h8v24h-8V20zm3.96-20C17.88 0 0 17.92 0 40s17.88 40 39.96 40C62.08 80 80 62.08 80 40S62.08 0 39.96 0zM40 72C22.32 72 8 57.68 8 40S22.32 8 40 8s32 14.32 32 32-14.32 32-32 32z"
+                fill={props.stroke || colors.disabled}
+            />
+        </Svg>
+    )
+}
+
 export {
     FavoritePassive,
     FavoriteActive,
     X,
     ChevronLeft,
     Search,
-    Calendar
+    Calendar,
+    InformationOutline
 }
