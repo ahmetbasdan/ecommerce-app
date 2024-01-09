@@ -7,9 +7,11 @@ import service from '../../service'
 import { useQuery } from 'react-query'
 import { productsResponse } from '../../types/service'
 import useNavigation from '../../hooks/useNavigation'
+import ActionContent from '../../components/ActionContent'
 
 const Search = () => {
   const [filterData, setFilterData] = useState<productsResponse[]>([])
+  const [isSearched, setIsSearched] = useState(false)
   const { data } = useQuery({
     queryKey: ['productList'],
     queryFn: async () => (await service.productsService()).data
@@ -27,8 +29,10 @@ const Search = () => {
         onChangeText={(text) => {
           if (!text) {
             setFilterData([])
+            setIsSearched(false)
             return
           }
+          setIsSearched(true)
           const newData = data?.filter((item) => {
             const itemData = item.title
               ? item.title.toUpperCase()
@@ -48,6 +52,14 @@ const Search = () => {
             <Text style={styles.product}>{item.title}</Text>
           </Pressable>}
         keyExtractor={(item, index) => index.toString()}
+        ListEmptyComponent={
+          isSearched ? (
+            <ActionContent
+              type='notfound-search'
+              text='Arama sonucu bulunamadı.'
+            />
+          ) : <></>
+        }
       />
     </View>
   )

@@ -75,9 +75,48 @@ function ChevronLeft(props: SvgProps) {
 
     )
 }
+
+function Search(props: SvgProps) {
+    return (
+        <Svg
+            width={92}
+            height={92}
+            viewBox="0 0 102 102"
+            fill="none"
+            {...props}
+        >
+            <Path
+                d="M45.917 86.583c22.46 0 40.666-18.207 40.666-40.666 0-22.46-18.207-40.667-40.666-40.667-22.46 0-40.667 18.207-40.667 40.667s18.207 40.666 40.667 40.666zM96.75 96.75L74.638 74.638"
+                stroke={props.stroke || colors.disabled}
+                strokeWidth={10}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </Svg>
+    )
+}
+
+function Calendar(props: SvgProps) {
+    return (
+        <Svg
+            width={98}
+            height={110}
+            viewBox="0 0 108 120"
+            fill={props.stroke || colors.disabled}
+            {...props}
+        >
+            <Path
+                d="M95.417 12.75H89.5V.917H77.667V12.75H30.333V.917H18.5V12.75h-5.917C6.075 12.75.75 18.075.75 24.583v82.834c0 6.508 5.325 11.833 11.833 11.833h82.834c6.508 0 11.833-5.325 11.833-11.833V24.583c0-6.508-5.325-11.833-11.833-11.833zm0 94.667H12.583V48.25h82.834v59.167zm-82.834-71V24.583h82.834v11.834H12.583zm11.834 23.666h59.166v11.834H24.417V60.083zm0 23.667h41.416v11.833H24.417V83.75z"
+            />
+        </Svg>
+    )
+}
+
 export {
     FavoritePassive,
     FavoriteActive,
     X,
-    ChevronLeft
+    ChevronLeft,
+    Search,
+    Calendar
 }

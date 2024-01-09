@@ -4,6 +4,7 @@ import { BasketContext } from '../../contexts/BasketContext'
 import colors from '../../utils/colors'
 import BasketItem from './components/BasketItem'
 import constants from '../../utils/constants'
+import ActionContent from '../../components/ActionContent'
 
 const Basket = () => {
   const { baskets } = useContext(BasketContext)
@@ -16,6 +17,13 @@ const Basket = () => {
         renderItem={({ item }) => <BasketItem {...item} />}
         ItemSeparatorComponent={() => <View style={styles.divider} />}
         keyExtractor={(item) => item.id.toString()}
+        ListEmptyComponent={
+          <ActionContent
+            style={styles.actionContent}
+            type='notfound'
+            text='Sepetinizde ürün bulunmamaktadır.'
+            />
+        }
       />
     </View>
   )
@@ -38,5 +46,8 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: colors.black,
     marginTop: 24
+  },
+  actionContent:{
+    paddingTop: constants.padding2x
   }
 })
